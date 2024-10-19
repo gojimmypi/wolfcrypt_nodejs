@@ -19,6 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1335, USA
  */
 #include "./h/ecc.h"
+#include <wolfssl/wolfcrypt/ecc.h>
+#include <wolfssl/wolfcrypt/random.h>
 
 Napi::Number sizeof_ecc_key(const Napi::CallbackInfo& info)
 {
@@ -64,7 +66,13 @@ Napi::Number bind_wc_ecc_make_key(const Napi::CallbackInfo& info)
   int ret;
   int key_size = info[0].As<Napi::Number>().Int32Value();
   ecc_key* ecc = (ecc_key*)( info[1].As<Napi::Uint8Array>().Data() );
-
+  WC_RNG rng;
+  ret = wc_InitRng(&rng);
+  if (ret < 0) {
+      printf("Failed to bind_wc_ecc_make_key wc_InitRng ret = %d\n", ret);
+      return Napi::Number::New(env, ret);  // Return error code
+  }
+  printf("wc_ecc_make_key...");
   ret = wc_ecc_make_key( ecc->rng, key_size, ecc );
 
   return Napi::Number::New( env, ret );
@@ -246,21 +254,93 @@ Napi::Number bind_wc_ecc_set_curve(const Napi::CallbackInfo& info)
 
 Napi::Number bind_wc_ecc_shared_secret(const Napi::CallbackInfo& info)
 {
-  Napi::Env env = info.Env();
-  int ret;
-  ecc_key* private_key = (ecc_key*)( info[0].As<Napi::Uint8Array>().Data() );
-  ecc_key* public_key = (ecc_key*)( info[1].As<Napi::Uint8Array>().Data() );
-  uint8_t* out = info[2].As<Napi::Uint8Array>().Data();
-  unsigned int out_len = info[3].As<Napi::Number>().Uint32Value();
+    Napi::Env env = info.Env();
+    int ret;
+    ecc_key* private_key = (ecc_key*)( info[0].As<Napi::Uint8Array>().Data() );
+    ecc_key* public_key = (ecc_key*)( info[1].As<Napi::Uint8Array>().Data() );
+    uint8_t* out = info[2].As<Napi::Uint8Array>().Data();
+    unsigned int out_len = info[3].As<Napi::Number>().Uint32Value();
 
-  ret = wc_ecc_shared_secret( private_key, public_key, out, &out_len );
+    ret = wc_ecc_shared_secret( private_key, public_key, out, &out_len );
 
-  if ( ret < 0 )
-  {
-    out_len = ret;
-  }
+    if ( ret < 0 )
+    {
+        out_len = ret;
+        printf("wc_ecc_shared_secret error %d\n", ret);
+    }
+    else
+    {
+        printf("wc_ecc_shared_secret success");
+    }
+    return Napi::Number::New(env, (int)out_len);
 
-  return Napi::Number::New( env, (int)out_len );
+/*
+    // Retrieve the Uint8Array from the JS input and extract the data
+    uint8_t* private_key_data = info[0].As<Napi::Uint8Array>().Data();
+    size_t private_key_len = info[0].As<Napi::Uint8Array>().ByteLength();
+
+    uint8_t* public_key_data = info[1].As<Napi::Uint8Array>().Data();
+    size_t public_key_len = info[1].As<Napi::Uint8Array>().ByteLength();
+
+    // Output buffer for the shared secret
+    uint8_t* out = info[2].As<Napi::Uint8Array>().Data();
+    unsigned int out_len = info[3].As<Napi::Number>().Uint32Value();
+
+    // Initialize the RNG context
+    WC_RNG rng;
+    ret = wc_InitRng(&rng);
+    if (ret < 0) {
+        return Napi::Number::New(env, ret);  // Return error code
+    }
+
+    // Initialize the ECC key structures
+    ecc_key private_key;
+    ecc_key public_key;
+
+    wc_ecc_init(&private_key);
+    wc_ecc_init(&public_key);
+
+    // Import the private key
+    ret = wc_ecc_import_private_key(private_key_data, private_key_len, NULL, 0, &private_key);
+    if (ret != 0) {
+        printf("Failed to wc_ecc_import_private_key ret = %d\n", ret);
+        wc_ecc_free(&private_key);
+        wc_ecc_free(&public_key);
+        wc_FreeRng(&rng);
+        return Napi::Number::New(env, ret);  // Return error code
+    }
+
+    // Import the public key (X9.63 format is typical for ECC public keys)
+    ret = wc_ecc_import_x963(public_key_data, public_key_len, &public_key);
+    if (ret != 0) {
+        printf("Failed to wc_ecc_import_x963 ret = %d\n", ret);
+        wc_ecc_free(&private_key);
+        wc_ecc_free(&public_key);
+        wc_FreeRng(&rng);
+        return Napi::Number::New(env, ret);  // Return error code
+    }
+
+    // Compute the shared secret using the imported keys
+    ret = wc_ecc_shared_secret(&private_key, &public_key, out, &out_len);
+    if (ret != 0) {
+        printf("Failed to wc_ecc_shared_secret ret = %d\n", ret);
+        wc_ecc_free(&private_key);
+        wc_ecc_free(&public_key);
+        wc_FreeRng(&rng);
+        return Napi::Number::New(env, ret);  // Return error code
+    }
+    printf("Private key type: %d\n", private_key.dp->id);
+    printf("Public key type: %d\n", public_key.dp->id);
+
+
+    // Free the resources
+    wc_ecc_free(&private_key);
+    wc_ecc_free(&public_key);
+    wc_FreeRng(&rng);
+
+    // Return the length of the shared secret
+    return Napi::Number::New(env, out_len);
+*/
 }
 
 Napi::Number bind_wc_ecc_sig_size(const Napi::CallbackInfo& info)
