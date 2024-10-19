@@ -1,5 +1,13 @@
 # wolfCrypt Node.JS support
 
+## Requirements
+
+[Node.js](https://nodejs.org/en/download/package-manager)
+
+
+[npx](https://docs.npmjs.com/cli/v8/commands/npx)
+
+
 ## Description
 
 This Node.js module exposes various wolfCrypt native C functions to Node.js using the Napi library. It makes wolfCrypt functions for ECC, EVP, HMAC, PBKDF2, PKCS7, RSA and SHA available within Nodejs and also provides interface classes that streamline a lot of the tedious actions required when using these functions.
@@ -216,6 +224,30 @@ And import it using the folder name
 const { wolfcrypt, WolfSSLEncryptionStream } = require( 'wolfcrypt_nodejs' )
 ...
 ```
+
+## Visual Studio
+
+## Visual Studio 2022
+
+See:
+
+* [Tutorial: Node.js for Beginners](https://learn.microsoft.com/en-us/visualstudio/javascript/tutorial-nodejs?view=vs-2022)
+* [Tutorial: Create a Node.js and Express app in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/javascript/tutorial-nodejs?view=vs-2022)
+
+```powershell
+ winget install Schniz.fnm
+ ```
+
+
+ ```powershell
+ fnm env --use-on-cd | Out-String | Invoke-Expression
+ fnm use --install-if-missing 20
+ node -v # should print `v20.18.0`
+ npx -v # should print `10.8.2`
+
+ # Launch VS2022 from the same shell:
+ "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+ ```
 
 ## Tests Output
 

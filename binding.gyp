@@ -13,20 +13,39 @@
             "addon/wolfcrypt/pbkdf2.cpp",
             "addon/wolfcrypt/pkcs7.cpp"
         ],
-        'include_dirs': [
+        "include_dirs": [
             "<!@(node -p \"require('node-addon-api').include\")"
         ],
-        'libraries': [
-            "/usr/local/lib/libwolfssl.so"
+        "libraries": [],
+        "dependencies": [
+            "<!(node -p \"require('node-addon-api').gyp\")"
         ],
-        'dependencies': [
-            "<!(node -p \"require('node-addon-api').gyp\")",
+        "defines": [ "NAPI_DISABLE_C_EXCEPTIONS" ],
+        "conditions": [
+            ['OS=="linux"', {
+                "libraries": [
+                    "/usr/local/lib/libwolfssl.so"
+                ]
+            }],
+            ['OS=="win"', {
+                "libraries": [
+                    "C:/workspace/wolfssl-gojimmypi-win/wolfcrypt/test/DLL Release/x64/wolfssl-VS2022.lib",
+                    "ws2_32.lib",   
+                    "crypt32.lib",  
+                    "advapi32.lib", 
+                    "user32.lib",    
+                    "kernel32.lib"  
+                ],
+                "include_dirs": [
+                    "C:/workspace/wolfssl-gojimmypi"
+                ]
+            }],
+
         ],
-        'defines': [ 'NAPI_DISABLE_C_EXCEPTIONS' ],
-        'msvs_settings': {
-            'VCCLCompilerTool': {
-                'ExceptionHandling': '1',    
-                'AdditionalOptions': ['/EHsc']
+        "msvs_settings": {
+            "VCCLCompilerTool": {
+                "ExceptionHandling": "1",    
+                "AdditionalOptions": ["/EHsc"]
             }
         }
     }]
