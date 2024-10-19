@@ -30,11 +30,11 @@
             ['OS=="win"', {
                 "libraries": [
                     "C:/workspace/wolfssl-gojimmypi-win/wolfcrypt/test/DLL Release/x64/wolfssl-VS2022.lib",
-                    "ws2_32.lib",   
-                    "crypt32.lib",  
-                    "advapi32.lib", 
-                    "user32.lib",    
-                    "kernel32.lib"  
+                    "ws2_32.lib",
+                    "crypt32.lib",
+                    "advapi32.lib",
+                    "user32.lib",
+                    "kernel32.lib"
                 ],
                 "include_dirs": [
                     "C:/workspace/wolfssl-gojimmypi"
@@ -44,7 +44,7 @@
         ],
         "msvs_settings": {
             "VCCLCompilerTool": {
-                "ExceptionHandling": "1",    
+                "ExceptionHandling": "1",
                 "AdditionalOptions": ["/EHsc"]
             }
         }
