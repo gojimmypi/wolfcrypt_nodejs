@@ -235,20 +235,142 @@ See:
 * [Tutorial: Create a Node.js and Express app in Visual Studio](https://learn.microsoft.com/en-us/visualstudio/javascript/tutorial-nodejs?view=vs-2022)
 
 ```powershell
- winget install Schniz.fnm
- ```
+winget install Schniz.fnm
+```
+
+Ensure the architecture compiled in Visual Studio matches that in `node`: see `node -p "process.arch"`
+
+```powershell
+fnm env --use-on-cd | Out-String | Invoke-Expression
+fnm use --install-if-missing 20
+node -v # should print `v20.18.0`
+npx -v # should print `10.8.2`
+
+# Launch VS2022 from the same shell:
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+ 
+cd C:\workspace\wolfcrypt_nodejs-gojimmypi
+
+```
+
+Use the [IDE/WIN10/user_settings.h](https://github.com/gojimmypi/wolfssl/blob/master/IDE/WIN10/user_settings.h) file and
+ensure these items are defined:
+
+```c
+/* npm */
+#define NPM_WOLFCRYPT
+#ifdef NPM_WOLFCRYPT
+    #undef  HAVE_PKCS7
+    #define HAVE_PKCS7
+    #define HAVE_AES_KEYWRAP
+    #define WOLFSSL_AES_DIRECT
+    #define HAVE_X963_KDF
+    #define WOLFSSL_SHA224
+    #define WOLFSSL_KEY_GEN
+#endif
+```
+There's also a reference file included in the [./lib](./lib) directory [here](./lib/user_settings.h)
+
+See [wolfssl PR #8090](https://github.com/wolfSSL/wolfssl/pull/8090) that adds Visual Studio 2022 project files.
+
+Build wolfssl using Visual Studio and see the resulting files as noted in output:
+
+```
+1>   Creating library C:\workspace\wolfssl-gojimmypi-win\DLL Release\x64\wolfssl-VS2022.lib and object C:\workspace\wolfssl-gojimmypi-win\DLL Release\x64\wolfssl-VS2022.exp
+1>Generating code
+1>0 of 3869 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+1>  0 functions were new in current compilation
+1>  0 functions had inline decision re-evaluated but remain unchanged
+1>Finished generating code
+1>wolfssl-VS2022.vcxproj -> C:\workspace\wolfssl-gojimmypi-win\DLL Release\x64\wolfssl-VS2022.dll
+========== Build: 1 succeeded, 0 failed, 0 up-to-date, 0 skipped ==========
+========== Build completed at 3:32 PM and took 12.825 seconds ==========
+```
+
+In the above case, using the [root level project](https://github.com/gojimmypi/wolfssl/blob/pr-visual-studio-2022/wolfssl-VS2022.vcxproj) 
+the resulting file is `C:\workspace\wolfssl-gojimmypi-win\DLL Release\x64\wolfssl-VS2022.lib`. 
+
+It is best to convert the Windows `\` to `/`.
+
+If instead conpiled with the `wolfcrypt/test` app, the lib file will be in:
+
+`C:/workspace/wolfssl-gojimmypi-win/wolfcrypt/test/DLL Release/x64/wolfssl-VS2022.lib`
 
 
- ```powershell
- fnm env --use-on-cd | Out-String | Invoke-Expression
- fnm use --install-if-missing 20
- node -v # should print `v20.18.0`
- npx -v # should print `10.8.2`
+If this error is observed (missing `wolfssl/options.h`), see [wolfSSL install](https://github.com/gojimmypi/wolfssl/blob/master/INSTALL).
 
- # Launch VS2022 from the same shell:
- "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
- ```
+```text
+gyp info spawn args ]
 
+  nothing.c
+  win_delay_load_hook.cc
+  nothing.vcxproj -> C:\workspace\wolfcrypt_nodejs-gojimmypi\build\Release\\nothing.lib
+  main.cpp
+C:\workspace\wolfcrypt_nodejs-gojimmypi\addon\wolfcrypt\h\evp.h(25,10): error C1083: Cannot open include file: 'wolfssl/options.h': No such file or directory [C
+:\workspace\wolfcrypt_nodejs-gojimmypi\build\wolfcrypt.vcxproj]
+  (compiling source file '../addon/wolfcrypt/main.cpp')
+
+gyp ERR! build error
+gyp ERR! stack Error: `C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe` failed with exit code: 1
+gyp
+```
+
+If this `Error: The specified module could not be found.` is observed: 
+
+```text
+C:\workspace\wolfcrypt_nodejs-gojimmypi>npm run test
+
+> wolfcrypt@1.0.3 test
+> node test.js
+
+node:internal/modules/cjs/loader:1586
+  return process.dlopen(module, path.toNamespacedPath(filename));
+                 ^
+
+Error: The specified module could not be found.
+\\?\C:\workspace\wolfcrypt_nodejs-gojimmypi\build\Release\wolfcrypt.node
+    at Module._extensions..node (node:internal/modules/cjs/loader:1586:18)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12)
+    at Module.require (node:internal/modules/cjs/loader:1311:19)
+    at require (node:internal/modules/helpers:179:18)
+    at Object.<anonymous> (C:\workspace\wolfcrypt_nodejs-gojimmypi\interfaces\ecc.js:21:19)
+    at Module._compile (node:internal/modules/cjs/loader:1469:14)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1548:10)
+    at Module.load (node:internal/modules/cjs/loader:1288:32)
+    at Module._load (node:internal/modules/cjs/loader:1104:12) {
+  code: 'ERR_DLOPEN_FAILED'
+}
+
+Node.js v20.18.0
+```
+
+Ensure the DLL can be found, either copied locally or in the path:
+
+```dos
+set PATH=%PATH%;C:\workspace\wolfssl-gojimmypi-win\wolfcrypt\test\DLL Release\x64\
+```
+
+
+### wolfSSL Configuration Notes
+
+Note that the `options.h` definition should match those from the compiled lib file that used the respective 
+Windows [user_settings.h](https://github.com/gojimmypi/wolfssl/blob/master/IDE/WIN10/user_settings.h).
+
+
+Clean build:
+
+```powershell
+npm run clean
+node-gyp clean
+node-gyp rebuild
+```
+
+See the `my_test.ps1` script:
+
+```
+powershell -ExecutionPolicy Bypass -File .\my_test.ps1
+```
 ## Tests Output
 
 ```
