@@ -67,7 +67,7 @@ const ecc_tests =
   {
     let ecc0 = new WolfSSLEcc()
     let ecc1 = new WolfSSLEcc()
-
+    console.log( 'Begin ecc sharedSecret32' )
     // make both keys concurrently
     await Promise.all([ ecc0.make_key_promise( 32 ), ecc1.make_key_promise( 32 ) ])
 
