@@ -252,12 +252,35 @@ Napi::Number bind_wc_ecc_set_curve(const Napi::CallbackInfo& info)
   return Napi::Number::New( env, ret );
 }
 
+void print_hex(const char* label, const uint8_t* data, size_t len)
+{
+    int n = 0;
+    printf("%s:\n", label);
+    for (size_t i = 0; i < len; i++) {
+        printf("%02X ", data[i]);
+        n++;
+        if (n > 15) {
+            printf("\n");
+            n = 0;
+        }
+    }
+    printf("\n");
+}
+
+
 Napi::Number bind_wc_ecc_shared_secret(const Napi::CallbackInfo& info)
 {
     Napi::Env env = info.Env();
     int ret;
     ecc_key* private_key = (ecc_key*)( info[0].As<Napi::Uint8Array>().Data() );
     ecc_key* public_key = (ecc_key*)( info[1].As<Napi::Uint8Array>().Data() );
+
+    int key_len = 255;
+    print_hex("\n\nPrivate Key", (const uint8_t*)private_key, key_len);
+
+    print_hex("\n\nPublic Key ", (const uint8_t*)public_key, key_len);
+
+
     uint8_t* out = info[2].As<Napi::Uint8Array>().Data();
     unsigned int out_len = info[3].As<Napi::Number>().Uint32Value();
 
@@ -266,11 +289,11 @@ Napi::Number bind_wc_ecc_shared_secret(const Napi::CallbackInfo& info)
     if ( ret < 0 )
     {
         out_len = ret;
-        printf("wc_ecc_shared_secret error %d\n", ret);
+        printf("\n\nwc_ecc_shared_secret error %d\n", ret);
     }
     else
     {
-        printf("wc_ecc_shared_secret success");
+        printf("\n\nwc_ecc_shared_secret success");
     }
     return Napi::Number::New(env, (int)out_len);
 
