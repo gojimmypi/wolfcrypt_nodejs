@@ -366,11 +366,19 @@ node-gyp clean
 node-gyp rebuild
 ```
 
-See the `my_test.ps1` script:
+See the `my_test.ps1` script that also includes:
+
+```
+npm i
+npm run test
+```
+
+Run it like this:
 
 ```
 powershell -ExecutionPolicy Bypass -File .\my_test.ps1
 ```
+
 ## Tests Output
 
 ```
