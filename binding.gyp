@@ -29,7 +29,7 @@
             }],
             ['OS=="win"', {
                 "libraries": [
-                    "C:/workspace/wolfssl-gojimmypi-win/wolfcrypt/test/DLL Release/x64/wolfssl-VS2022.lib",
+                    "C:/workspace/wolfssl-gojimmypi-win/DLL Release/x64/wolfssl-VS2022.lib",
                     "ws2_32.lib",
                     "crypt32.lib",
                     "advapi32.lib",
@@ -37,7 +37,7 @@
                     "kernel32.lib"
                 ],
                 "include_dirs": [
-                    "C:/workspace/wolfssl-gojimmypi"
+                    "C:/workspace/wolfssl-gojimmypi-win"
                 ]
             }],
 
@@ -46,6 +46,9 @@
             "VCCLCompilerTool": {
                 "ExceptionHandling": "1",
                 "AdditionalOptions": ["/EHsc"]
+            },
+            "VCLinkerTool": {
+                "AdditionalOptions": ["/NODEFAULTLIB:MSVCRTD"]
             }
         }
     }]
