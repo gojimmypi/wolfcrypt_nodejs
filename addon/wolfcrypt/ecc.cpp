@@ -280,7 +280,11 @@ Napi::Number bind_wc_ecc_shared_secret(const Napi::CallbackInfo& info)
 
     print_hex("\n\nPublic Key ", (const uint8_t*)public_key, key_len);
 
-
+    /* Alternatively call wolfSSL_Init() or comparable API */
+    /* Mandatory with FIPS, will also trigger DRBG CAST */
+//#ifdef WC_RNG_SEED_CB
+//    wc_SetSeed_Cb(wc_GenerateSeed);
+//#endif
     uint8_t* out = info[2].As<Napi::Uint8Array>().Data();
     unsigned int out_len = info[3].As<Napi::Number>().Uint32Value();
 
