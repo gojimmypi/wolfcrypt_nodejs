@@ -267,6 +267,14 @@ ensure these items are defined:
     #define HAVE_X963_KDF
     #define WOLFSSL_SHA224
     #define WOLFSSL_KEY_GEN
+    #define HAVE_ECC
+    #define ECC_MAX_BITS 521
+    #define WC_ECC256
+    #define WC_ECC384
+    #define WC_ECC521
+    #define HAVE_ECC_ENCRYPT
+    #define WOLFSSL_UINT128_T_DEFINED
+    /* #define WC_RNG_SEED_CB */
 #endif
 ```
 There's also a reference file included in the [./lib](./lib) directory [here](./lib/user_settings.h)
@@ -348,9 +356,39 @@ Node.js v20.18.0
 Ensure the DLL can be found, either copied locally or in the path:
 
 ```dos
-set PATH=%PATH%;C:\workspace\wolfssl-gojimmypi-win\wolfcrypt\test\DLL Release\x64\
+:: set your location of the wolfSSL root directory:
+set WOLFSSL_ROOT=C:\workspace\wolfssl-%USERNAME%-win
+
+:: if using the DLL Release from an example, such as the wolfcrypt test:
+set PATH=%PATH%;%WOLFSSL_ROOT%\wolfcrypt\test\DLL Release\x64\
+
+:: otherwise set to root-level project; Be sure DLL Release was successfuly built and the file exists:
+set PATH=%PATH%;%WOLFSSL_ROOT%\DLL Release\x64\
+
 ```
 
+When encountering `cannot open input file... wolfssl[-VS2022].lib` like this:
+
+```
+LINK : fatal error LNK1181: cannot open input file 'C:\workspace\wolfssl\DLL Released\wolfssl-VS2022.lib' [C:\workspace\wolfcrypt_nodejs\build\wolfcrypt.vcxproj]
+```
+
+Ensure the `DLL Release` build was selected and that the `[wolfssl root]\DLL Release\x64\wolfssl-VS2022.lib` file exists; build with the wolfSSL project and confirm build was successful:
+
+```
+1>Finished generating code
+1>wolfssl-VS2022.vcxproj -> C:\workspace\wolfssl\DLL Release\x64\wolfssl-VS2022.dll
+========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
+========== Rebuild completed at 6:08 PM and took 17.377 seconds ==========
+```
+
+Also ensure the `binding.gyp` file uses _forward slashes_, (or double backslashes). Not just a single backslash.
+
+```
+            ['OS=="win"', {
+                "libraries": [
+                    "C:/workspace/wolfssl-gojimmypi-win/DLL Release/x64/wolfssl-VS2022.lib",
+```
 
 ### wolfSSL Configuration Notes
 
