@@ -384,8 +384,13 @@ set PATH=%PATH%;%WOLFSSL_ROOT%\DLL Release\x64\
 Or when using PowerShell:
 
 ```ps
+# set WOLFSSL_ROOT to c:\workspace\wolfssl-[your login name]
+
 $env:WOLFSSL_ROOT = "C:\workspace\wolfssl-$env:USERNAME"
 $env:PATH += ";$env:WOLFSSL_ROOT\DLL Release\x64"
+
+# Check the current path
+$env:PATH -split ";"
 ```
 
 When encountering `cannot open input file... wolfssl[-VS2022].lib` like this:
@@ -402,6 +407,21 @@ Ensure the `DLL Release` build was selected and that the `[wolfssl root]\DLL Rel
 ========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========
 ========== Rebuild completed at 6:08 PM and took 17.377 seconds ==========
 ```
+
+For the error: `LINK : fatal error LNK1181: cannot open input file '<your path>\DLL Release\x64\wolfssl.lib' ` like this:
+
+```
+  win_delay_load_hook.cc
+LINK : fatal error LNK1181: cannot open input file 'C:\workspace\wolfssl-gojimmypi\DLL Release\x64\wolfssl.lib' [C:\workspace\wolfcrypt_nodejs-gojimmypi\build\wolfcrypt.vcxproj]
+gyp ERR! build error
+gyp ERR! stack Error: `C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe` failed with exit code: 1
+gyp ERR! stack     at ChildProcess.onExit (C:\workspace\wolfcrypt_nodejs-gojimmypi\node_modules\node-gyp\lib\build.js:203:23)
+gyp ERR! stack     at ChildProcess.emit (node:events:519:28)
+gyp ERR! stack     at ChildProcess._handle.onexit (node:internal/child_process:294:12)
+```
+
+Ensure wolfSSL has been build with the `DLL Release` build option and that the files exist in `<your path>\DLL Release\x64\`.
+
 
 Also ensure the `binding.gyp` file uses _forward slashes_, (or double backslashes). Not just a single backslash.
 
