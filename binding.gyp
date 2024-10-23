@@ -28,9 +28,7 @@
                 ]
             }],
             ['OS=="win"', {
-                "defines": [ "WOLFSSL_USER_SETTINGS",  "_WIN32" ],
-                "cflags": [ "-D_WIN32" ],
-                "cflags_cc": [ "-D_WIN32" ],
+                "defines": [ "WOLFSSL_USER_SETTINGS" ],
                 "libraries": [
                     "C:/workspace/wolfssl-gojimmypi/DLL Release/x64/wolfssl.lib",
                     "ws2_32.lib",
