@@ -247,7 +247,7 @@ node -v # should print `v20.18.0`
 npx -v # should print `10.8.2`
 
 # Launch VS2022 from the same shell:
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
+& "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
  
 cd C:\workspace\wolfcrypt_nodejs-gojimmypi
 
@@ -304,6 +304,21 @@ If instead conpiled with the `wolfcrypt/test` app, the lib file will be in:
 
 `C:/workspace/wolfssl-gojimmypi-win/wolfcrypt/test/DLL Release/x64/wolfssl-VS2022.lib`
 
+if this ` error C2065: 'TI': undeclared identifier` is encountered, ensure the `user_settings.h` mentioned above is used,
+in particular the `#define WOLFSSL_UINT128_T_DEFINED`.
+
+```
+  nothing.vcxproj -> C:\workspace\wolfcrypt_nodejs-gojimmypi\build\Release\\nothing.lib
+  main.cpp
+C:\workspace\wolfssl-gojimmypi-win\wolfssl\wolfcrypt\sp_int.h(257,44): error C2146: syntax error: missing ';' before identifier '__attribute__' [C:\workspace\wolfcrypt_
+nodejs-gojimmypi\build\wolfcrypt.vcxproj]
+  (compiling source file '../addon/wolfcrypt/main.cpp')
+
+C:\workspace\wolfssl-gojimmypi-win\wolfssl\wolfcrypt\sp_int.h(257,65): error C2065: 'TI': undeclared identifier [C:\workspace\wolfcrypt_nodejs-gojimmypi\build\wolfcrypt
+.vcxproj]
+  (compiling source file '../addon/wolfcrypt/main.cpp')
+```
+
 
 If this error is observed (missing `wolfssl/options.h`), see [wolfSSL install](https://github.com/gojimmypi/wolfssl/blob/master/INSTALL).
 
@@ -353,18 +368,24 @@ Error: The specified module could not be found.
 Node.js v20.18.0
 ```
 
-Ensure the DLL can be found, either copied locally or in the path:
+Ensure the DLL can be found, either copied locally or in the DOS path:
 
 ```dos
 :: set your location of the wolfSSL root directory:
-set WOLFSSL_ROOT=C:\workspace\wolfssl-%USERNAME%-win
+set WOLFSSL_ROOT=C:\workspace\wolfssl-%USERNAME%
 
 :: if using the DLL Release from an example, such as the wolfcrypt test:
 set PATH=%PATH%;%WOLFSSL_ROOT%\wolfcrypt\test\DLL Release\x64\
 
 :: otherwise set to root-level project; Be sure DLL Release was successfuly built and the file exists:
 set PATH=%PATH%;%WOLFSSL_ROOT%\DLL Release\x64\
+```
 
+Or when using PowerShell:
+
+```ps
+$env:WOLFSSL_ROOT = "C:\workspace\wolfssl-$env:USERNAME"
+$env:PATH += ";$env:WOLFSSL_ROOT\DLL Release\x64"
 ```
 
 When encountering `cannot open input file... wolfssl[-VS2022].lib` like this:

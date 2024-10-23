@@ -28,8 +28,11 @@
                 ]
             }],
             ['OS=="win"', {
+                "defines": [ "WOLFSSL_USER_SETTINGS",  "_WIN32" ],
+                "cflags": [ "-D_WIN32" ],
+                "cflags_cc": [ "-D_WIN32" ],
                 "libraries": [
-                    "C:/workspace/wolfssl-gojimmypi-win/DLL Release/x64/wolfssl-VS2022.lib",
+                    "C:/workspace/wolfssl-gojimmypi/DLL Release/x64/wolfssl.lib",
                     "ws2_32.lib",
                     "crypt32.lib",
                     "advapi32.lib",
@@ -37,7 +40,8 @@
                     "kernel32.lib"
                 ],
                 "include_dirs": [
-                    "C:/workspace/wolfssl-gojimmypi-win"
+                    "C:/workspace/wolfssl-gojimmypi",
+                    "C:/workspace/wolfssl-gojimmypi/IDE/WIN"
                 ]
             }],
 
