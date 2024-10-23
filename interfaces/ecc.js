@@ -349,7 +349,6 @@ class WolfSSLEcc
     }
 
     let secret = Buffer.alloc( keySize )
-    console.log("shared_secret keySize = %d ", keySize)
     let ret = wolfcrypt.wc_ecc_shared_secret( this.ecc, pubEcc.ecc, secret, keySize )
 
     if ( ret != keySize )
