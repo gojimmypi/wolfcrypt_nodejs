@@ -1,4 +1,4 @@
-C:\workspace\wolfcrypt_nodejs-gojimmypi>npm i
+C:\workspace\wolfcrypt_nodejs-gojimmypi> npm i
 
 > wolfcrypt@1.0.3 install
 > node-gyp rebuild
@@ -58,14 +58,126 @@ gyp info spawn args ]
      Creating library C:\workspace\wolfcrypt_nodejs-gojimmypi\build\Release\wolfcrypt.lib and object C:\workspace\wolfcrypt_nodejs-gojimmypi\build\Release\wolfcrypt.exp
   Generating code
   Previous IPDB not found, fall back to full compilation.
-  All 383 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 386 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   wolfcrypt.vcxproj -> C:\workspace\wolfcrypt_nodejs-gojimmypi\build\Release\\wolfcrypt.node
 gyp info ok
 
-up to date, audited 100 packages in 13s
+up to date, audited 100 packages in 14s
 
 5 packages are looking for funding
   run `npm fund` for details
 
 found 0 vulnerabilities
+C:\workspace\wolfcrypt_nodejs-gojimmypi> npm run test
+
+> wolfcrypt@1.0.3 test
+> node test.js
+
+Running test:  ecc_makeKey
+wc_ecc_make_key...PASS ecc make_key
+
+Running test:  ecc_sharedSecret32
+Begin ecc sharedSecret32
+PASS ecc sharedSecret32
+
+Running test:  ecc_sharedSecret64
+PASS ecc sharedSecret64
+
+Running test:  ecc_signVerify
+wc_ecc_make_key...PASS ecc signVerify
+
+Running test:  ecc_importExportx963
+wc_ecc_make_key...PASS ecc importExportx963
+
+Running test:  ecc_importExportDer
+wc_ecc_make_key...PASS ecc importExportDer
+
+Running test:  evp_encrypt
+PASS evp encrypt
+
+Running test:  evp_decrypt
+PASS evp decrypt
+
+Running test:  evp_encryptDecryptOdd
+PASS evp encrypt_decrypt_odd
+
+Running test:  evp_encryptionStream
+PASS evp encryptionStream
+
+Running test:  evp_decryptionStream
+PASS evp decryptionStream
+
+Running test:  evp_encryptDecryptPipes
+PASS evp encryptDecryptPipes
+
+Running test:  hmac
+PASS hmac hmac
+
+Running test:  hmacStream
+PASS hmac hmacStream
+
+Running test:  hmacPipe
+PASS hmac hmacPipe
+
+Running test:  pbkdf2
+PASS pbkdf2
+
+Running test:  pkcs7_addCertificate
+PASS pkcs7 addCertificate
+
+Running test:  pkcs7_encodeData
+PASS pkcs7 encodeData
+
+Running test:  pkcs7_signVerify
+PASS pkcs7 signVerify
+
+Running test:  pkcs7_getAttribute
+PASS pkcs7 getAttribute
+
+Running test:  pkcs7_getSid
+PASS pkcs7 getSid
+
+Running test:  rsa_MakeRsaKey
+PASS rsa MakeRsaKey
+
+Running test:  rsa_keyToDer
+PASS rsa keyToDer
+
+Running test:  rsa_keyToPublicDer
+PASS rsa keyToPublicDer
+
+Running test:  rsa_privateKeyDecode
+PASS rsa privateKeyDecode
+
+Running test:  rsa_publicKeyDecode
+PASS rsa publicKeyDecode
+
+Running test:  rsa_encryptDecrypt
+PASS rsa encryptDecrypt
+
+Running test:  rsa_signVerify
+PASS rsa signVerify
+
+Running test:  sha
+PASS sha sha
+
+Running test:  sha224
+PASS sha sha224
+
+Running test:  sha256
+PASS sha sha256
+
+Running test:  sha384
+PASS sha sha384
+
+Running test:  sha512
+PASS sha sha512
+
+Running test:  sha512_224
+PASS sha sha512_224
+
+Running test:  sha512_256
+PASS sha sha512_256
+
+C:\workspace\wolfcrypt_nodejs-gojimmypi
