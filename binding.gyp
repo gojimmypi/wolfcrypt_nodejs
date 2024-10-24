@@ -30,7 +30,7 @@
             ['OS=="win"', {
                 "defines": [ "WOLFSSL_USER_SETTINGS" ],
                 "libraries": [
-                    "C:/workspace/wolfssl-gojimmypi/DLL Release/x64/wolfssl.lib",
+                    "<!@(process.env.WOLFSSL_LIB_PATH ? process.env.WOLFSSL_LIB_PATH : 'C:/workspace/wolfssl/DLL Release/x64')/wolfssl.lib",
                     "ws2_32.lib",
                     "crypt32.lib",
                     "advapi32.lib",
@@ -38,6 +38,9 @@
                     "kernel32.lib"
                 ],
                 "include_dirs": [
+                    "<!@(process.env.WOLFSSL_INCLUDE_PATH       ? process.env.WOLFSSL_INCLUDE_PATH       : 'C:/workspace/wolfssl')",
+                    "<!@(process.env.WOLFSSL_USER_SETTINGS_PATH ? process.env.WOLFSSL_USER_SETTINGS_PATH : 'C:/workspace/wolfssl/IDE/WIN')"
+
                     "C:/workspace/wolfssl-gojimmypi",
                     "C:/workspace/wolfssl-gojimmypi/IDE/WIN"
                 ]
