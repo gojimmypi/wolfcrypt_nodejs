@@ -30,7 +30,7 @@
             ['OS=="win"', {
                 "defines": [ "WOLFSSL_USER_SETTINGS" ],
                 "libraries": [
-                    "<!@(process.env.WOLFSSL_LIB_PATH ? process.env.WOLFSSL_LIB_PATH : 'C:/workspace/wolfssl/DLL Release/x64')/wolfssl.lib",
+                    "<!(powershell -command \"if ($env:WOLFSSL_LIB_PATH) { echo $env:WOLFSSL_LIB_PATH } else { echo 'C:/workspace/wolfssl/DLL Release/x64' }\")/wolfssl.lib",
                     "ws2_32.lib",
                     "crypt32.lib",
                     "advapi32.lib",
@@ -38,11 +38,8 @@
                     "kernel32.lib"
                 ],
                 "include_dirs": [
-                    "<!@(process.env.WOLFSSL_INCLUDE_PATH       ? process.env.WOLFSSL_INCLUDE_PATH       : 'C:/workspace/wolfssl')",
-                    "<!@(process.env.WOLFSSL_USER_SETTINGS_PATH ? process.env.WOLFSSL_USER_SETTINGS_PATH : 'C:/workspace/wolfssl/IDE/WIN')"
-
-                    "C:/workspace/wolfssl-gojimmypi",
-                    "C:/workspace/wolfssl-gojimmypi/IDE/WIN"
+                    "<!(powershell -command \"if ($env:WOLFSSL_INCLUDE_PATH) { echo $env:WOLFSSL_INCLUDE_PATH } else { echo 'C:/workspace/wolfssl' }\")",
+                    "<!(powershell -command \"if ($env:WOLFSSL_USER_SETTINGS_PATH) { echo $env:WOLFSSL_USER_SETTINGS_PATH } else { echo 'C:/workspace/wolfssl/IDE/WIN' }\")"
                 ]
             }],
 
