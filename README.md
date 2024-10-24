@@ -342,7 +342,8 @@ ensure these items are defined:
     /* #define WC_RNG_SEED_CB */
 #endif
 ```
-There's also a reference file included in the [./lib](./lib) directory [here](./lib/user_settings.h)
+
+There's also a reference file included in the [./lib](./lib) directory [here](./lib/user_settings.h).
 
 See [wolfssl PR #8090](https://github.com/wolfSSL/wolfssl/pull/8090) that adds Visual Studio 2022 project files.
 
