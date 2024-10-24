@@ -227,7 +227,51 @@ const { wolfcrypt, WolfSSLEncryptionStream } = require( 'wolfcrypt_nodejs' )
 
 ## Visual Studio
 
+Use the local [./lib/user_settings.h](./lib/user_settings.h); Copy it to your `<WOLFSSL_ROOT>/IDE/Win` directory (or whereever your wolfssl binaries will be).
+See the `wolfssl-VS2022.vcxproj` Project File in the root of your wolfSSL source.
+
+See the [setup_env.ps1](./setup_env.ps1) or [setup_env.bat](./setup_env.bat) to setup the NodeJS/NPM environment.
+
+## wolfSSL Source Code
+
+The Windows Visual Studio environment assumes that wolfSSL source code repository is available. If not:
+
+From DOS:
+
+```dos
+cd C:\workspace
+
+:: Fetch this repo from your fork:
+git lone https://github.com/%USERNAME%/wolfcrypt_nodejs.git
+
+:: Fetch wolfssl from your fork:
+git clone https://github.com/%USERNAME%/wolfssl.git "wolfssl-%USERNAME%"
+
+cd "wolfssl-%USERNAME%"
+git remote add upstream https://github.com/wolfSSL/wolfssl.git
+```
+
+From Powershell:
+
+``` Powershell
+cd C:\workspace
+$USERNAME = $env:USERNAME
+
+# Fetch this repo from your fork:
+git lone https://github.com/$USERNAME/wolfcrypt_nodejs.git
+
+# Fetch wolfssl from your fork:
+git clone "https://github.com/$USERNAME/wolfssl.git" "wolfssl-$USERNAME"
+
+cd "wolfssl-$USERNAME"
+git remote add upstream https://github.com/wolfSSL/wolfssl.git
+```
+
+Script preference will be given first for the directory name `wolfssl-<username>`, then `wolfssl`
+
 ### Environment Variable Settings
+
+For the `binding.gyp`:
 
 * `WOLFSSL_LIB_PATH` location of the wolfSSL compiled lib file, default: `C:/workspace/wolfssl/DLL Release/x64` 
 * `WOLFSSL_INCLUDE_PATH` location of wolfssl include directory, default: `C:/workspace/wolfssl`
