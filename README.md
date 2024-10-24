@@ -361,7 +361,7 @@ Build wolfssl using Visual Studio and see the resulting files as noted in output
 ```
 
 In the above case, using the [root level project `wolfssl-VS2022.vcxproj`](https://github.com/wolfSSL/wolfssl/blob/master/wolfssl-VS2022.vcxproj),
-select "DLL Release" build option; upon building the output binaries files should be found in \
+select "DLL Release" build option; upon building the output binaries files should be found in 
 `C:\workspace\wolfssl-%USERNAME%\DLL Release\x64\wolfssl-VS2022.lib`. 
 
 It is best to convert the Windows `\` to `/`.
