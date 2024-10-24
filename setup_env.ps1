@@ -6,16 +6,22 @@ $vsPathProfessional = "C:\Program Files\Microsoft Visual Studio\2022\Professiona
 $vsPathEnterprise = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\devenv.exe"
 
 if (Test-Path "C:/workspace/wolfssl-$env:USERNAME") {
-    Write-Output "Found wolfSSL at C:/workspace/wolfssl-$env:USERNAME"
-    $env:WOLFSSL_LIB_PATH = "C:/workspace/wolfssl-$env:USERNAME/DLL Release/x64"
-    $env:WOLFSSL_INCLUDE_PATH = "C:/workspace/wolfssl-$env:USERNAME"
-    $env:WOLFSSL_USER_SETTINGS_PATH = "C:/workspace/wolfssl-$env:USERNAME/IDE/WIN"
+    $env:WOLFSSL_ROOT = "C:/workspace/wolfssl-$env:USERNAME"
+    $env:PATH += ";$env:WOLFSSL_ROOT\DLL Release\x64"
+
+    Write-Output "Found wolfSSL at $env:WOLFSSL_ROOT"
+    $env:WOLFSSL_LIB_PATH           = "$env:WOLFSSL_ROOT/DLL Release/x64"
+    $env:WOLFSSL_INCLUDE_PATH       = "$env:WOLFSSL_ROOT"
+    $env:WOLFSSL_USER_SETTINGS_PATH = "$env:WOLFSSL_ROOT/IDE/WIN"
 
 } elseif (Test-Path "C:/workspace/wolfssl") {
-    Write-Output "Found wolfSSL at C:/workspace/wolfssl"
-    $env:WOLFSSL_LIB_PATH = "C:/workspace/wolfssl/DLL Release/x64"
-    $env:WOLFSSL_INCLUDE_PATH = "C:/workspace/wolfssl"
-    $env:WOLFSSL_USER_SETTINGS_PATH = "C:/workspace/wolfssl/IDE/WIN"
+    $env:WOLFSSL_ROOT = "C:/workspace/wolfssl"
+    $env:PATH += ";$env:WOLFSSL_ROOT\DLL Release\x64"
+
+    Write-Output "Found wolfSSL at $env:WOLFSSL_ROOT"
+    $env:WOLFSSL_LIB_PATH           = "$env:WOLFSSL_ROOT/DLL Release/x64"
+    $env:WOLFSSL_INCLUDE_PATH       = "$env:WOLFSSL_ROOT"
+    $env:WOLFSSL_USER_SETTINGS_PATH = "$env:WOLFSSL_ROOT/IDE/WIN"
 
 } else {
     Write-Output "Could not find wolfSSL source directory."
