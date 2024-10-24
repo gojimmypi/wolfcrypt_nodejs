@@ -227,6 +227,30 @@ const { wolfcrypt, WolfSSLEncryptionStream } = require( 'wolfcrypt_nodejs' )
 
 ## Visual Studio
 
+### Environment Variable Settings
+
+* `WOLFSSL_LIB_PATH` location of the wolfSSL compiled lib file, default: `C:/workspace/wolfssl/DLL Release/x64` 
+* `WOLFSSL_INCLUDE_PATH` location of wolfssl include directory, default: `C:/workspace/wolfssl`
+* `WOLFSSL_USER_SETTINGS_PATH` location of wolfssl `user_settings.h` default: `C:/workspace/wolfssl/IDE/WIN`
+
+Important: Ensure the same `user_settings.h` used to compile wolfSSL is referenced from this NodeJS module!
+
+DOS
+
+```dos
+set WOLFSSL_LIB_PATH="C:/workspace/wolfssl-%USERNAME%/DLL Release/x64"
+set WOLFSSL_INCLUDE_PATH="C:/workspace/wolfssl-%USERNAME%"
+set WOLFSSL_USER_SETTINGS_PATH="C:/workspace/wolfssl-%USERNAME%/IDE/WIN"
+```
+
+PowerShell
+
+```ps
+$env:WOLFSSL_LIB_PATH = "C:/workspace/wolfssl-%USERNAME%/DLL Release/x64"
+$env:WOLFSSL_INCLUDE_PATH = "C:/workspace/wolfssl-%USERNAME%"
+$env:WOLFSSL_USER_SETTINGS_PATH = "C:/workspace/wolfssl-%USERNAME%/IDE/WIN"
+```
+
 ## Visual Studio 2022
 
 See:
@@ -248,9 +272,8 @@ npx -v # should print `10.8.2`
 
 # Launch VS2022 from the same shell:
 & "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
- 
-cd C:\workspace\wolfcrypt_nodejs-gojimmypi
 
+cd C:\workspace\wolfcrypt_nodejs-gojimmypi
 ```
 
 Use the [IDE/WIN10/user_settings.h](https://github.com/gojimmypi/wolfssl/blob/master/IDE/WIN10/user_settings.h) file and
@@ -321,6 +344,7 @@ C:\workspace\wolfssl-gojimmypi-win\wolfssl\wolfcrypt\sp_int.h(257,65): error C20
 
 
 If this error is observed (missing `wolfssl/options.h`), see [wolfSSL install](https://github.com/gojimmypi/wolfssl/blob/master/INSTALL).
+Determine if the `WOLFSSL_USER_SETTINGS` preprocessor directive has been defined.
 
 ```text
 gyp info spawn args ]
