@@ -70,3 +70,18 @@ npm install
 
 Write-Output "Test..."
 npm run test
+
+
+# One final check if the user_settings.h match
+$File1 = Get-Content "$($env:WOLFSSL_USER_SETTINGS_PATH)/user_settings.h"
+$File2 = Get-Content "./lib/user_settings.h"
+
+$diff = Compare-Object $File1 $File2
+
+if ($diff) {
+    Write-Host "Warning: "
+    Write-Host "./lib/user_settings.h does not match"
+    Write-Host "$($env:WOLFSSL_USER_SETTINGS_PATH)/user_settings.h"
+} else {
+    Write-Host "Confirmed reference ./lib/user_settings.h matches wolfSSL source."
+}
