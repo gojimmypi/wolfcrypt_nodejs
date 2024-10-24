@@ -230,7 +230,7 @@ const { wolfcrypt, WolfSSLEncryptionStream } = require( 'wolfcrypt_nodejs' )
 Use the local [./lib/user_settings.h](./lib/user_settings.h); Copy it to your `<WOLFSSL_ROOT>/IDE/Win` directory (or wherever your wolfssl binaries will be).
 See the `wolfssl-VS2022.vcxproj` Project File in the root of your wolfSSL source.
 
-See the [setup_env.ps1](./setup_env.ps1) or [setup_env.bat](./setup_env.bat) to setup the NodeJS/NPM environment.
+The [setup_env.ps1](./setup_env.ps1) or [setup_env.bat](./setup_env.bat) script can be used to setup the NodeJS/NPM environment.
 
 ## wolfSSL Source Code
 
@@ -316,8 +316,6 @@ npx -v # should print `10.8.2`
 
 # Launch VS2022 from the same shell:
 & "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe"
-
-cd C:\workspace\wolfcrypt_nodejs-gojimmypi
 ```
 
 Use the [IDE/WIN10/user_settings.h](https://github.com/wolfSSL/wolfssl/blob/master/IDE/WIN10/user_settings.h) file and
