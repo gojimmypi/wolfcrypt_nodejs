@@ -282,17 +282,21 @@ Important: Ensure the same `user_settings.h` used to compile wolfSSL is referenc
 DOS
 
 ```dos
-set WOLFSSL_LIB_PATH="C:/workspace/wolfssl-%USERNAME%/DLL Release/x64"
-set WOLFSSL_INCLUDE_PATH="C:/workspace/wolfssl-%USERNAME%"
-set WOLFSSL_USER_SETTINGS_PATH="C:/workspace/wolfssl-%USERNAME%/IDE/WIN"
+set WOLFSSL_LIB_PATH=C:/workspace/wolfssl-%USERNAME%/DLL Release/x64
+set WOLFSSL_INCLUDE_PATH=C:/workspace/wolfssl-%USERNAME%
+set WOLFSSL_USER_SETTINGS_PATH=C:/workspace/wolfssl-%USERNAME%/IDE/WIN
+
+set PATH=%PATH%;%WOLFSSL_LIB_PATH%
 ```
 
 PowerShell
 
 ```ps
-$env:WOLFSSL_LIB_PATH = "C:/workspace/wolfssl-%USERNAME%/DLL Release/x64"
-$env:WOLFSSL_INCLUDE_PATH = "C:/workspace/wolfssl-%USERNAME%"
-$env:WOLFSSL_USER_SETTINGS_PATH = "C:/workspace/wolfssl-%USERNAME%/IDE/WIN"
+$env:WOLFSSL_LIB_PATH = "C:/workspace/wolfssl-$env:USERNAME/DLL Release/x64"
+$env:WOLFSSL_INCLUDE_PATH = "C:/workspace/wolfssl-$env:USERNAME"
+$env:WOLFSSL_USER_SETTINGS_PATH = "C:/workspace/wolfssl-$env:USERNAME/IDE/WIN"
+
+$env:PATH += ";$env:WOLFSSL_LIB_PATH"
 ```
 
 ## Visual Studio 2022
