@@ -58,4 +58,15 @@ if (Test-Path $vsPathEnterprise) {
     Write-Output "Visual Studio 2022 executable not found."
 }
 
-cd C:\workspace\wolfcrypt_nodejs-gojimmypi
+Write-Output "Clean..."
+npm run clean
+npx node-gyp clean
+
+Write-Output "Rebuild..."
+npx node-gyp rebuild
+
+Write-Output "Install..."
+npm install
+
+Write-Output "Test..."
+npm run test
