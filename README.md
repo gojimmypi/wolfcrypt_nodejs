@@ -227,7 +227,7 @@ const { wolfcrypt, WolfSSLEncryptionStream } = require( 'wolfcrypt_nodejs' )
 
 ## Visual Studio
 
-Use the local [./lib/user_settings.h](./lib/user_settings.h); Copy it to your `<WOLFSSL_ROOT>/IDE/Win` directory (or whereever your wolfssl binaries will be).
+Use the local [./lib/user_settings.h](./lib/user_settings.h); Copy it to your `<WOLFSSL_ROOT>/IDE/Win` directory (or wherever your wolfssl binaries will be).
 See the `wolfssl-VS2022.vcxproj` Project File in the root of your wolfSSL source.
 
 See the [setup_env.ps1](./setup_env.ps1) or [setup_env.bat](./setup_env.bat) to setup the NodeJS/NPM environment.
