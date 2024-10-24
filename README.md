@@ -320,7 +320,7 @@ npx -v # should print `10.8.2`
 cd C:\workspace\wolfcrypt_nodejs-gojimmypi
 ```
 
-Use the [IDE/WIN10/user_settings.h](https://github.com/gojimmypi/wolfssl/blob/master/IDE/WIN10/user_settings.h) file and
+Use the [IDE/WIN10/user_settings.h](https://github.com/wolfSSL/wolfssl/blob/master/IDE/WIN10/user_settings.h) file and
 ensure these items are defined:
 
 ```c
@@ -362,14 +362,15 @@ Build wolfssl using Visual Studio and see the resulting files as noted in output
 ========== Build completed at 3:32 PM and took 12.825 seconds ==========
 ```
 
-In the above case, using the [root level project](https://github.com/gojimmypi/wolfssl/blob/pr-visual-studio-2022/wolfssl-VS2022.vcxproj) 
-the resulting file is `C:\workspace\wolfssl-gojimmypi-win\DLL Release\x64\wolfssl-VS2022.lib`. 
+In the above case, using the [root level project `wolfssl-VS2022.vcxproj`](https://github.com/wolfSSL/wolfssl/blob/master/wolfssl-VS2022.vcxproj),
+select "DLL Release" build option; upon building the output binaries files should be found in \
+`C:\workspace\wolfssl-%USERNAME%\DLL Release\x64\wolfssl-VS2022.lib`. 
 
 It is best to convert the Windows `\` to `/`.
 
 If instead conpiled with the `wolfcrypt/test` app, the lib file will be in:
 
-`C:/workspace/wolfssl-gojimmypi-win/wolfcrypt/test/DLL Release/x64/wolfssl-VS2022.lib`
+`C:/workspace/wolfssl-%USERNAME%/wolfcrypt/test/DLL Release/x64/wolfssl-VS2022.lib`
 
 if this ` error C2065: 'TI': undeclared identifier` is encountered, ensure the `user_settings.h` mentioned above is used,
 in particular the `#define WOLFSSL_UINT128_T_DEFINED`.
@@ -387,7 +388,7 @@ C:\workspace\wolfssl-gojimmypi-win\wolfssl\wolfcrypt\sp_int.h(257,65): error C20
 ```
 
 
-If this error is observed (missing `wolfssl/options.h`), see [wolfSSL install](https://github.com/gojimmypi/wolfssl/blob/master/INSTALL).
+If this error is observed (missing `wolfssl/options.h`), see [wolfSSL install](https://github.com/wolfSSL/wolfssl/blob/master/INSTALL).
 Determine if the `WOLFSSL_USER_SETTINGS` preprocessor directive has been defined.
 
 ```text
